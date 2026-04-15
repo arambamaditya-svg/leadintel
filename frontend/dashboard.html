@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LeadIntel | Revenue Control System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fa;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        header {
+            background: white;
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .brand h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1e293b;
+            background: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.813rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #0f172a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1e293b;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: #e2e8f0;
+            color: #475569;
+        }
+        .btn-outline:hover {
+            background: #f8fafc;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+        }
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+        }
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-icon {
+            padding: 6px 10px;
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .btn-icon:hover {
+            background: #f1f5f9;
+            color: #ef4444;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            border-left: 4px solid;
+            border: 1px solid #e9ecef;
+        }
+
+        .stat-card.hot { border-left-color: #ef4444; }
+        .stat-card.warm { border-left-color: #f59e0b; }
+        .stat-card.cold { border-left-color: #10b981; }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .two-column { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            font-size: 0.938rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.25rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0f172a;
+        }
+
+        .revenue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-group {
+            display: flex;
+            background: #f1f5f9;
+            padding: 3px;
+            border-radius: 40px;
+        }
+
+        .toggle-btn {
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: #64748b;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #0f172a;
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 20px;
+        }
+
+        .revenue-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .revenue-stat {
+            flex: 1;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .revenue-stat .label {
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+
+        .revenue-stat .value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .revenue-note {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748b;
+            background: #f8fafc;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            font-size: 0.813rem;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+        tr.clickable {
+            cursor: pointer;
+        }
+        tr.clickable:hover {
+            background: #f8fafc;
+        }
+
+        .badge {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .badge-hot { background: #fef2f2; color: #ef4444; }
+        .badge-warm { background: #fffbeb; color: #f59e0b; }
+        .badge-cold { background: #ecfdf5; color: #10b981; }
+
+        .risk-badge {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .risk-low { background: #ecfdf5; color: #10b981; }
+        .risk-medium { background: #fffbeb; color: #f59e0b; }
+        .risk-high { background: #fef2f2; color: #ef4444; }
+        .risk-handled { background: #e0e7ff; color: #4f46e5; }
+
+        .score { font-weight: 700; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.6);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .toast {
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.813rem;
+            font-weight: 500;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: slideIn 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.success { background: #10b981; color: white; }
+        .toast.error { background: #ef4444; color: white; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .loading-overlay {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid { gap: 0.75rem; }
+            .stat-value { font-size: 1.5rem; }
+            .container { padding: 1rem; }
+            th, td { padding: 0.5rem 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <h1>LeadIntel</h1>
+        </div>
+        <div class="nav-actions">
+            <span class="user-info" id="display-user"></span>
+            <button class="btn btn-outline" onclick="openSettings()">Settings</button>
+            <a href="/rules" class="btn btn-outline">Scoring Rules</a>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card hot">
+                <div class="stat-label">Hot Leads</div>
+                <div class="stat-value" id="count-hot">0</div>
+            </div>
+            <div class="stat-card warm">
+                <div class="stat-label">Warm Leads</div>
+                <div class="stat-value" id="count-warm">0</div>
+            </div>
+            <div class="stat-card cold">
+                <div class="stat-label">Cold Leads</div>
+                <div class="stat-value" id="count-cold">0</div>
+            </div>
+        </div>
+
+        <div class="two-column">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Quick Lead Intake</h3>
+                </div>
+                <div class="card-body">
+                    <form id="intake-form">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="in-name" required placeholder="Enter lead name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="in-email" placeholder="email@company.com">
+                        </div>
+                        <div id="dynamic-fields"></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;" id="btn-submit-lead">
+                            Create Lead
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Revenue Certainty</h3>
+                </div>
+                <div class="card-body">
+                    <div class="revenue-header">
+                        <div class="toggle-group">
+                            <button class="toggle-btn active" onclick="updateTarget('daily', this)">Daily</button>
+                            <button class="toggle-btn" onclick="updateTarget('monthly', this)">Monthly</button>
+                        </div>
+                    </div>
+
+                    <div class="progress-container">
+                        <div id="revenue-bar" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+
+                    <div class="revenue-stats">
+                        <div class="revenue-stat">
+                            <div class="label">Certainty</div>
+                            <div class="value" id="val-certainty">0%</div>
+                        </div>
+                        <div class="revenue-stat">
+                            <div class="label">Risk</div>
+                            <div class="value" id="val-risk">-</div>
+                        </div>
+                        <div class="revenue-stat">
+                            <div class="label">Est. Revenue</div>
+                            <div class="value" id="val-est-rev">₹0</div>
+                        </div>
+                        <div class="revenue-stat">
+                            <div class="label">Target</div>
+                            <div class="value" id="val-target">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="revenue-note">
+                        HOT = 50% (₹<span id="label-hot-val">0</span>) | WARM = 20% (₹<span id="label-warm-val">0</span>)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Leads</h3>
+                <div id="lead-count-meta" style="font-size: 0.7rem; color: #64748b;"></div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Score</th>
+                            <th>Category</th>
+                            <th>Created Date</th>
+                            <th>Age</th>
+                            <th>Risk</th>
+                            <th style="width: 110px;">Action</th>
+                            <th style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-body">
+                        <tr><td colspan="9" class="loading-overlay">Loading leads...</td></tr>
+                    </tbody>
+                </table>
+                <div id="empty-state" class="loading-overlay" style="display: none;">No leads yet. Create your first lead.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="card-header">
+                <h3>Agency Settings</h3>
+                <button class="btn btn-outline" onclick="closeSettings()" style="padding: 4px 8px;">✕</button>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Monthly Revenue Target (₹)</label>
+                    <input type="number" id="set-monthly-target">
+                </div>
+                <div class="form-group">
+                    <label>Average Deal Size (₹)</label>
+                    <input type="number" id="set-avg-deal">
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="btn btn-outline" style="flex: 1" onclick="closeSettings()">Cancel</button>
+                    <button class="btn btn-primary" style="flex: 1" onclick="saveSettings()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="card-header">
+                <h3>Confirm Delete</h3>
+                <button class="btn btn-outline" onclick="closeDeleteModal()" style="padding: 4px 8px;">✕</button>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom: 20px;">Delete this lead permanently? This action cannot be undone.</p>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-outline" style="flex: 1" onclick="closeDeleteModal()">Cancel</button>
+                    <button class="btn btn-primary" style="flex: 1" id="confirm-delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        let leads = [];
+        let schema = [];
+        let settings = { monthly_target: 500000, avg_deal_size: 50000 };
+        let targetType = 'daily';
+        let deleteLeadId = null;
+
+        const token = localStorage.getItem('access_token');
+        if (!token) window.location.href = '/login';
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'error' ? '⚠️' : '✓'}</span> ${msg}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/login';
+        }
+
+        function displayUser() {
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user && user.full_name) {
+                    document.getElementById('display-user').textContent = user.full_name;
+                }
+            } catch (e) {}
+        }
+
+        // FIXED: Age calculation using LOCAL TIME
+        function formatAge(createdAtUTC) {
+            const created = new Date(createdAtUTC);
+            const now = new Date();
+            
+            // Calculate difference in milliseconds
+            const diffMs = now - created;
+            const diffSecs = Math.floor(diffMs / 1000);
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffMonths = Math.floor(diffDays / 30);
+            const diffYears = Math.floor(diffDays / 365);
+
+            if (diffSecs < 60) return 'Just now';
+            if (diffMins < 60) return `${diffMins} minute${diffMins === 1 ? '' : 's'} ago`;
+            if (diffHours < 24) return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+            if (diffDays < 30) return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+            if (diffMonths < 12) return `${diffMonths} month${diffMonths === 1 ? '' : 's'} ago`;
+            return `${diffYears} year${diffYears === 1 ? '' : 's'} ago`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        function getRiskDisplay(lead) {
+            if (lead.is_handled) {
+                return { text: 'Handled', class: 'risk-handled' };
+            }
+            const created = new Date(lead.first_contact);
+            const now = new Date();
+            const hours = Math.floor((now - created) / (1000 * 60 * 60));
+            
+            if (hours < 24) return { text: 'Low', class: 'risk-low' };
+            if (hours < 48) return { text: 'Medium', class: 'risk-medium' };
+            return { text: 'High', class: 'risk-high' };
+        }
+
+        async function markHandled(leadId, leadName) {
+            try {
+                const res = await fetch(`/api/leads/${leadId}/handle`, { method: 'POST', headers });
+                if (res.ok) {
+                    showToast(`${leadName} marked as handled`);
+                    await fetchData();
+                } else {
+                    showToast('Failed to mark as handled', 'error');
+                }
+            } catch (err) {
+                showToast('Error', 'error');
+            }
+        }
+
+        async function markUnhandled(leadId, leadName) {
+            try {
+                const res = await fetch(`/api/leads/${leadId}/unhandle`, { method: 'POST', headers });
+                if (res.ok) {
+                    showToast(`${leadName} marked as unhandled`);
+                    await fetchData();
+                } else {
+                    showToast('Failed to mark as unhandled', 'error');
+                }
+            } catch (err) {
+                showToast('Error', 'error');
+            }
+        }
+
+        async function fetchData() {
+            try {
+                const res = await fetch('/api/leads/', { headers });
+                if (res.status === 401) return logout();
+                leads = await res.json();
+                leads.sort((a, b) => b.score - a.score);
+                renderStats();
+                renderTable();
+                calculateRevenue();
+            } catch (err) {
+                showToast("Failed to load leads", "error");
+            }
+        }
+
+        async function fetchSchema() {
+            try {
+                const res = await fetch('/api/leads/schema', { headers });
+                const data = await res.json();
+                schema = data.fields || [];
+                renderDynamicForm();
+            } catch (err) {
+                schema = [
+                    { key: 'urgency', label: 'Urgency', type: 'text', required: true },
+                    { key: 'budget', label: 'Budget (₹)', type: 'text', required: true },
+                    { key: 'business_type', label: 'Business Type', type: 'text', required: true }
+                ];
+                renderDynamicForm();
+            }
+        }
+
+        async function fetchSettings() {
+            try {
+                const res = await fetch('/api/agencies/settings/me', { headers });
+                if (res.ok) {
+                    settings = await res.json();
+                    document.getElementById('set-monthly-target').value = settings.monthly_target;
+                    document.getElementById('set-avg-deal').value = settings.avg_deal_size;
+                    calculateRevenue();
+                }
+            } catch (err) {}
+        }
+
+        async function deleteLead(id) {
+            try {
+                const res = await fetch(`/api/leads/${id}`, { method: 'DELETE', headers });
+                if (res.ok) {
+                    showToast('Lead deleted successfully');
+                    await fetchData();
+                } else {
+                    showToast('Failed to delete lead', 'error');
+                }
+            } catch (err) {
+                showToast('Error deleting lead', 'error');
+            }
+        }
+
+        function renderStats() {
+            const counts = { HOT: 0, WARM: 0, COLD: 0 };
+            leads.forEach(l => counts[l.category]++);
+            document.getElementById('count-hot').textContent = counts.HOT;
+            document.getElementById('count-warm').textContent = counts.WARM;
+            document.getElementById('count-cold').textContent = counts.COLD;
+            document.getElementById('lead-count-meta').textContent = `${leads.length} total leads`;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('leads-body');
+            const empty = document.getElementById('empty-state');
+            tbody.innerHTML = '';
+
+            if (leads.length === 0) {
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            leads.forEach(lead => {
+                const risk = getRiskDisplay(lead);
+                const createdDate = formatDate(lead.first_contact);
+                const age = formatAge(lead.first_contact);
+
+                const tr = document.createElement('tr');
+                tr.className = 'clickable';
+                tr.onclick = (e) => {
+                    if (e.target.tagName !== 'BUTTON' && !e.target.closest('.btn')) {
+                        window.location.href = `/lead/${lead.id}`;
+                    }
+                };
+
+                tr.innerHTML = `
+                    <td style="font-weight: 500">${escapeHtml(lead.name || 'N/A')}</td>
+                    <td style="color: #64748b;">${escapeHtml(lead.email || lead.phone || '-')}</td>
+                    <td class="score">${lead.score}</td>
+                    <td><span class="badge badge-${lead.category.toLowerCase()}">${lead.category}</span></td>
+                    <td style="color: #64748b;">${createdDate}</td>
+                    <td style="color: #64748b;">${age}</td>
+                    <td><span class="risk-badge ${risk.class}">${risk.text}</span></td>
+                    <td>${lead.is_handled ? 
+                        `<button class="btn btn-warning" style="padding: 4px 12px;" onclick="event.stopPropagation(); markUnhandled(${lead.id}, '${escapeHtml(lead.name || 'Lead')}')">↩️ Unhandle</button>` :
+                        `<button class="btn btn-success" style="padding: 4px 12px;" onclick="event.stopPropagation(); markHandled(${lead.id}, '${escapeHtml(lead.name || 'Lead')}')">✓ Mark Handled</button>`
+                    }</td>
+                    <td><button class="btn-icon" onclick="event.stopPropagation(); confirmDelete(${lead.id})" title="Delete">🗑️</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderDynamicForm() {
+            const container = document.getElementById('dynamic-fields');
+            container.innerHTML = '';
+            schema.forEach(field => {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                group.innerHTML = `
+                    <label>${escapeHtml(field.label)} ${field.required ? '*' : ''}</label>
+                    <input type="text" id="field_${field.key}" placeholder="${escapeHtml(field.label)}" ${field.required ? 'required' : ''}>
+                `;
+                container.appendChild(group);
+            });
+        }
+
+        function calculateRevenue() {
+            const hotCount = leads.filter(l => l.category === 'HOT').length;
+            const warmCount = leads.filter(l => l.category === 'WARM').length;
+            const estRev = (hotCount * 0.5 * settings.avg_deal_size) + (warmCount * 0.2 * settings.avg_deal_size);
+            const target = targetType === 'daily' ? (settings.monthly_target / 30) : settings.monthly_target;
+            const certainty = target > 0 ? Math.min(100, Math.round((estRev / target) * 100)) : 0;
+
+            let risk = 'HIGH', color = '#ef4444';
+            if (certainty >= 70) { risk = 'LOW'; color = '#10b981'; }
+            else if (certainty >= 40) { risk = 'MEDIUM'; color = '#f59e0b'; }
+
+            document.getElementById('val-certainty').textContent = `${certainty}%`;
+            document.getElementById('val-risk').textContent = risk;
+            document.getElementById('val-est-rev').textContent = `₹${Math.round(estRev).toLocaleString('en-IN')}`;
+            document.getElementById('val-target').textContent = `₹${Math.round(target).toLocaleString('en-IN')}`;
+            document.getElementById('label-hot-val').textContent = (settings.avg_deal_size * 0.5).toLocaleString('en-IN');
+            document.getElementById('label-warm-val').textContent = (settings.avg_deal_size * 0.2).toLocaleString('en-IN');
+
+            const bar = document.getElementById('revenue-bar');
+            bar.style.width = `${certainty}%`;
+            bar.style.backgroundColor = color;
+        }
+
+        function updateTarget(type, btn) {
+            targetType = type;
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            calculateRevenue();
+        }
+
+        document.getElementById('intake-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-lead');
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+
+            const answers = {};
+            schema.forEach(f => {
+                answers[f.key] = document.getElementById(`field_${f.key}`).value;
+            });
+
+            const payload = {
+                source: "dashboard",
+                name: document.getElementById('in-name').value,
+                email: document.getElementById('in-email').value,
+                answers: answers
+            };
+
+            try {
+                const res = await fetch('/api/leads/intake', { method: 'POST', headers, body: JSON.stringify(payload) });
+                if (res.ok) {
+                    const data = await res.json();
+                    showToast(`Lead created! Score: ${data.score} (${data.category})`);
+                    document.getElementById('intake-form').reset();
+                    await fetchData();
+                } else {
+                    const err = await res.json();
+                    showToast(err.detail || "Error creating lead", 'error');
+                }
+            } catch (err) {
+                showToast("Network error", 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Create Lead';
+            }
+        };
+
+        async function saveSettings() {
+            const newSettings = {
+                monthly_target: parseInt(document.getElementById('set-monthly-target').value),
+                avg_deal_size: parseInt(document.getElementById('set-avg-deal').value)
+            };
+            try {
+                const res = await fetch('/api/agencies/settings/me', { method: 'PUT', headers, body: JSON.stringify(newSettings) });
+                if (res.ok) {
+                    settings = newSettings;
+                    showToast("Settings saved");
+                    calculateRevenue();
+                    closeSettings();
+                } else {
+                    showToast("Failed to save", 'error');
+                }
+            } catch (e) {
+                showToast("Error saving settings", 'error');
+            }
+        }
+
+        function confirmDelete(id) {
+            deleteLeadId = id;
+            document.getElementById('delete-modal').style.display = 'flex';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').style.display = 'none';
+            deleteLeadId = null;
+        }
+
+        document.getElementById('confirm-delete-btn').onclick = async () => {
+            if (deleteLeadId) {
+                await deleteLead(deleteLeadId);
+                closeDeleteModal();
+            }
+        };
+
+        function openSettings() { document.getElementById('settings-modal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
+
+        window.onclick = (e) => {
+            if (e.target === document.getElementById('settings-modal')) closeSettings();
+            if (e.target === document.getElementById('delete-modal')) closeDeleteModal();
+        };
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        displayUser();
+        fetchSettings();
+        fetchSchema();
+        fetchData();
+    </script>
+</body>
+</html>

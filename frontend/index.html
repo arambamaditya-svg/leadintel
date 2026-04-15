@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LeadIntel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .status {
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .healthy {
+            color: green;
+            font-weight: bold;
+        }
+        .unhealthy {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>LeadIntel - Revenue Control System</h1>
+    <p>Lead Intelligence for Digital Agencies</p>
+    
+    <div class="status">
+        <p>API Status: <span id="status" class="unhealthy">Checking...</span></p>
+    </div>
+
+    <script>
+        fetch('/health')
+            .then(response => response.json())
+            .then(data => {
+                const statusSpan = document.getElementById('status');
+                statusSpan.innerText = data.status;
+                statusSpan.className = 'healthy';
+            })
+            .catch(() => {
+                const statusSpan = document.getElementById('status');
+                statusSpan.innerText = 'error';
+                statusSpan.className = 'unhealthy';
+            });
+    </script>
+</body>
+</html>

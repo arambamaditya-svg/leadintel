@@ -1,52 +1,433 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>LeadIntel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadIntel | Revenue Control & Lead Intelligence</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --text-head: #0f172a;
+            --text-body: #475569;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Global Components --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            border: 1px solid var(--accent);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+            filter: brightness(1.05);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-head);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-secondary);
+            border-color: var(--accent);
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 1.5rem 0;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-head);
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 12rem 0 6rem;
             text-align: center;
-            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
         }
-        .status {
-            padding: 20px;
-            background: #f0f0f0;
-            border-radius: 8px;
-            margin-top: 20px;
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.02;
+            pointer-events: none;
         }
-        .healthy {
-            color: green;
-            font-weight: bold;
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
-        .unhealthy {
-            color: red;
-            font-weight: bold;
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: var(--text-head);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            color: var(--text-body);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* --- Features Section --- */
+        .features {
+            padding: 6rem 0;
+            background: var(--bg-primary);
+        }
+
+        .section-tag {
+            text-align: center;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--text-head);
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .feature-card h3 {
+            color: var(--text-head);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* --- How It Works --- */
+        .how-it-works {
+            padding: 6rem 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-number {
+            background: var(--accent);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .step-content h4 {
+            color: var(--text-head);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            background: var(--bg-primary);
+        }
+
+        .footer-logo {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-body);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero-actions {
+                flex-direction: column;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .hero {
+                padding: 10rem 0 4rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>LeadIntel - Revenue Control System</h1>
-    <p>Lead Intelligence for Digital Agencies</p>
-    
-    <div class="status">
-        <p>API Status: <span id="status" class="unhealthy">Checking...</span></p>
-    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <i class="fa-solid fa-bolt"></i> LeadIntel
+                </a>
+                <a href="/login" class="btn btn-outline" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <span class="hero-badge">Built for Digital Agencies</span>
+                <h1>Never miss a hot lead.<br>Ever again.</h1>
+                <p>LeadIntel is the revenue control system that stops your agency from losing money through missed follow-ups and misprioritized leads.</p>
+                <div class="hero-actions">
+                    <a href="/dashboard" class="btn btn-primary">Go to Dashboard <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i></a>
+                    <a href="/register" class="btn btn-outline">Create Account</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <span class="section-tag">Powerful Features</span>
+                <h2 class="section-title">Clarity over complexity</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-ranking-star"></i></div>
+                        <h3>Lead Scoring</h3>
+                        <p>Automatically score leads HOT, WARM, or COLD based on your agency's custom rules. Stop guessing who to call first.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3>Revenue Certainty</h3>
+                        <p>Know your daily and monthly revenue potential at a glance. Make data-driven hiring and spending decisions with confidence.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3>Smart Prioritization</h3>
+                        <p>Our risk detection engine flags leads that need immediate attention before they go cold. Protect your pipeline.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <span class="section-tag">The Process</span>
+                <h2 class="section-title">How LeadIntel Works</h2>
+                
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Connect</h4>
+                            <p>Add leads manually through our clean interface or connect your existing forms via webhooks in seconds.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Score</h4>
+                            <p>Our intelligence system instantly scores each lead based on the criteria that matter most to your business.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Act</h4>
+                            <p>Focus your team's energy on HOT leads and watch your conversion rates and revenue grow.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="logo footer-logo" style="justify-content: center;">
+                <i class="fa-solid fa-bolt"></i> LeadIntel
+            </div>
+            <p class="copyright">© 2026 LeadIntel. Built for digital agencies who value growth.</p>
+        </div>
+    </footer>
 
     <script>
-        fetch('/health')
-            .then(response => response.json())
-            .then(data => {
-                const statusSpan = document.getElementById('status');
-                statusSpan.innerText = data.status;
-                statusSpan.className = 'healthy';
-            })
-            .catch(() => {
-                const statusSpan = document.getElementById('status');
-                statusSpan.innerText = 'error';
-                statusSpan.className = 'unhealthy';
+        // Subtle hover interaction for feature cards
+        const cards = document.querySelectorAll('.feature-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
             });
+        });
     </script>
 </body>
 </html>

@@ -51,8 +51,16 @@ except Exception as e:
     print(f"DEBUG: Step 8 FAILED - {e}", file=sys.stderr)
     raise
 
+try:
+    from routes.webhook_routes import router as webhook_router
+    print("DEBUG: Step 8.5 - webhook_routes imported", file=sys.stderr)
+except Exception as e:
+    print(f"DEBUG: Step 8.5 FAILED - {e}", file=sys.stderr)
+    raise
+
 app.include_router(agency_router)
 app.include_router(lead_router)
+app.include_router(webhook_router)
 
 print("DEBUG: Step 9 - routes included", file=sys.stderr)
 

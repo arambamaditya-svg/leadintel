@@ -15,6 +15,7 @@ class Agency(Base):
     settings = Column(Text, nullable=True)  # JSON stored as string
     monthly_target = Column(Integer, default=500000)  # Monthly revenue target in rupees
     avg_deal_size = Column(Integer, default=50000)    # Average deal size in rupees
+    api_key = Column(String(255), unique=True, nullable=True, index=True)  # API key for webhook authentication
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
